@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Draw</string>
+    <string name="color_confirm">Select</string>
+    <string name="color_cancel">Cancel</string>
+</resources>

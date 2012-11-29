@@ -1,0 +1,9 @@
+local.properties
+bin/
+gen/
+
+*.swp
+*.class
+*.dex
+*.apk
+*.ap_
