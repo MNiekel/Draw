@@ -13,12 +13,12 @@ import android.view.View;
 
 public class ColorPickerDialog extends Dialog {
     public interface OnColorChangedListener {
-        void colorChanged(String key, int color);
+        //void colorChanged(String key, int color);
+        void colorChanged(int color);
     }
 
     private OnColorChangedListener mListener;
     private int mInitialColor, mDefaultColor;
-    private String mKey;
 
     private static class ColorPickerView extends View {
         private Paint mPaint;
@@ -260,21 +260,24 @@ public class ColorPickerDialog extends Dialog {
 
             // If the touch event is located in the left button, notify the listener with the current color
             if (x > 10 && x < 138 && y > 316 && y < 356)
-                mListener.colorChanged("", mCurrentColor);
+                //mListener.colorChanged("", mCurrentColor);
+                mListener.colorChanged(mCurrentColor);
 
             // If the touch event is located in the right button, notify the listener with the default color
             if (x > 138 && x < 266 && y > 316 && y < 356)
-                mListener.colorChanged("", mDefaultColor);
+                //mListener.colorChanged("", mDefaultColor);
+                mListener.colorChanged(mDefaultColor);
 
             return true;
         }
     }
 
-    public ColorPickerDialog(Context context, OnColorChangedListener listener, String key, int initialColor, int defaultColor) {
+    //public ColorPickerDialog(Context context, OnColorChangedListener listener, String key, int initialColor, int defaultColor) {
+    public ColorPickerDialog(Context context, OnColorChangedListener listener, int initialColor, int defaultColor) {
         super(context);
 
         mListener = listener;
-        mKey = key;
+        //mKey = key;
         mInitialColor = initialColor;
         mDefaultColor = defaultColor;
     }
@@ -283,8 +286,10 @@ public class ColorPickerDialog extends Dialog {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         OnColorChangedListener l = new OnColorChangedListener() {
-            public void colorChanged(String key, int color) {
-                mListener.colorChanged(mKey, color);
+            //public void colorChanged(String key, int color) {
+            public void colorChanged(int color) {
+                //mListener.colorChanged(mKey, color);
+                mListener.colorChanged(color);
                 dismiss();
             }
         };

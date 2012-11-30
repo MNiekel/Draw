@@ -2,6 +2,7 @@ package com.example.touchdraw;
 
 import android.app.Activity;
 import android.app.DialogFragment;
+import android.app.Dialog;
 import android.app.FragmentManager;
 import android.os.Bundle;
 import android.view.Menu;
@@ -10,6 +11,7 @@ import android.view.MenuInflater;
 import android.graphics.Color;
 
 public class Draw extends Activity
+                         implements ColorPickerDialog.OnColorChangedListener
 {
     DrawView drawView;
 
@@ -52,7 +54,13 @@ public class Draw extends Activity
 
     private void pickColor()
     {
-        DialogFragment f = new ColorPickerFragment(drawView);
-        f.show(getFragmentManager(), "colorPicker");
+        Dialog d = new ColorPickerDialog(this, this,
+                                                Color.WHITE, Color.WHITE);
+        d.show();
+    }
+
+    @Override
+    public void colorChanged(int color) {
+        drawView.setColor(color);
     }
 }

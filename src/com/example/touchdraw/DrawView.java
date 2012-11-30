@@ -17,6 +17,8 @@ public class DrawView extends View
     Paint paint = new Paint();
     Point point = new Point();
     List<Circle> circles = new ArrayList<Circle>();
+    List<Shape> objects = new ArrayList<Shape>();
+    Shape current = new Shape(ShapeType.CIRCLE);
     float radius;
     int color;
 
@@ -124,42 +126,39 @@ class Point
     }
 }
 
-enum Shape
+enum ShapeType
 {
     CIRCLE, RECTANGLE
 }
 
-class Circle extends ShapeObject
+class Circle extends Shape
 {
-    Point center;
-    float radius;
-    int color;
+    public Point center;
+    public float radius;
 
     public Circle()
     {
-        super(Shape.CIRCLE);
+        super(ShapeType.CIRCLE, Color.WHITE);
         center = new Point();
         radius = 0;
-        color = Color.WHITE;
     }
 
     public Circle(Point p, float r, int c)
     {
-        super(Shape.CIRCLE);
+        super(ShapeType.CIRCLE, c);
         center = new Point(p.x, p.y);
         radius = r;
-        color = c;
     }
 }
 
-class Rectangle extends ShapeObject
+class Rectangle extends Shape
 {
-    Point origo;
-    float width, height;  // can be negative values
+    public Point origo;
+    public float width, height;  // can be negative values
 
     public Rectangle()
     {
-        super(Shape.RECTANGLE);
+        super(ShapeType.RECTANGLE);
         origo = new Point();
         width = 0;
         height = 0;
@@ -167,20 +166,26 @@ class Rectangle extends ShapeObject
 
     public Rectangle(Point p, float w, float h)
     {
-        super(Shape.RECTANGLE);
+        super(ShapeType.RECTANGLE);
         origo = new Point(p.x, p.y);
         width = w;
         height = h;
     }
 }
 
-
-class ShapeObject
+class Shape
 {
-    Shape shape;
+    public ShapeType shape;
+    public int color;
 
-    public ShapeObject(Shape s)
+    public Shape(ShapeType s)
     {
         shape = s;
+    }
+
+    public Shape(ShapeType s, int c)
+    {
+        shape = s;
+        color = c;
     }
 }
