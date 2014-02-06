@@ -10,7 +10,6 @@ import android.graphics.Color;
 import android.graphics.Paint;
 import android.view.MotionEvent;
 import android.view.View;
-import android.view.View.OnTouchListener;
 
 public class DrawView extends View
 {
@@ -21,6 +20,9 @@ public class DrawView extends View
     Shape current = new Shape(ShapeType.CIRCLE);
     float radius;
     int color;
+    Point point1 = new Point();
+    Point point2 = new Point();
+    ShapeType stateShape = ShapeType.CIRCLE;
 
     public DrawView(Context context)
     {
@@ -52,7 +54,8 @@ public class DrawView extends View
             canvas.drawCircle(p.x, p.y, r, paint);
         }
         paint.setColor(color);
-        canvas.drawCircle(point.x, point.y, radius, paint);
+        //canvas.drawCircle(point.x, point.y, radius, paint);
+        drawShape(canvas);
     }
 
     @Override
@@ -64,13 +67,17 @@ public class DrawView extends View
             {
                 point.x = event.getX();
                 point.y = event.getY();
-                invalidate();
+                point1.x = event.getX();
+                point1.y = event.getY();
+                //invalidate();
                 return true;
             }
             case MotionEvent.ACTION_MOVE:
             {
                 radius = Math.max(Math.abs(event.getX() - point.x),
                                     Math.abs(event.getY() - point.y));
+                point2.x = event.getX();
+                point2.y = event.getY();
                 invalidate();
                 return true;
             }
@@ -83,6 +90,29 @@ public class DrawView extends View
             }
         }
         return true;
+    }
+
+    private void drawShape(Canvas canvas)
+    {
+        switch (current.shapetype)
+        {
+            case CIRCLE:
+            {
+                float r = Math.max(Math.abs(point1.x - point2.x),
+                                    Math.abs(point1.y - point2.y));
+                canvas.drawCircle(point1.x, point1.y, r, paint);
+                return;
+            }
+            case RECTANGLE:
+            {
+                float left = Math.min(point1.x, point2.x);
+                float top = Math.min(point1.y, point2.y);
+                float right = Math.max(point1.x, point2.x);
+                float bottom = Math.max(point1.y, point2.y);
+                canvas.drawRect(left, top, right, bottom, paint);
+                return;
+            }
+        }
     }
 
     public void clear()
@@ -175,17 +205,17 @@ class Rectangle extends Shape
 
 class Shape
 {
-    public ShapeType shape;
+    public ShapeType shapetype;
     public int color;
 
     public Shape(ShapeType s)
     {
-        shape = s;
+        shapetype = s;
     }
 
     public Shape(ShapeType s, int c)
     {
-        shape = s;
+        shapetype = s;
         color = c;
     }
 }

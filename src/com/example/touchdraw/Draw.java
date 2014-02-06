@@ -1,9 +1,7 @@
 package com.example.touchdraw;
 
 import android.app.Activity;
-import android.app.DialogFragment;
 import android.app.Dialog;
-import android.app.FragmentManager;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
